@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: flask-app-2
+  name: flask-app-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app-2
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: flask-app-2
+    spec:
+      containers:
+      #- image: aspadhi/flask-app-2:latest
+      - image: aspadhi/{{IMAGE_NAME}}
+        name: flask-app-2
+        ports:
+        - containerPort: 9000
+        env:
+        - name: APP1-IMAGE
+          value: "default"
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: flask-app-2
+  name: flask-app-2
+spec:
+  ports:
+  - port: 9000
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: flask-app-2
+status:
+  loadBalancer: {}
